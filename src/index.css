@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/* ============================================================
+   MUNDO IMPORTADO STORE — Design tokens (identidade real da marca)
+   Base creme/greige · texto preto quente · dourado antigo só como
+   acabamento · charcoal para contraponto dramático.
+   ============================================================ */
+@theme {
+  --color-creme: #f3eee6;
+  --color-greige: #e6ded1;
+  --color-greige-2: #d5cbbb;
+  --color-dourado: #b0894c;
+  --color-preto: #1a1613;
+  --color-charcoal: #241f1b;
+  --color-cinza: #6f645b;
+  --color-linha: rgba(176, 137, 76, 0.28);
+
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-script: "Pinyon Script", cursive;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-creme);
+    color: var(--color-preto);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    color: var(--color-preto);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -0.005em;
+  }
+
+  ::selection {
+    background-color: var(--color-dourado);
+    color: var(--color-creme);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-dourado);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  /* Rótulos curtos em caixa alta com tracking aberto (Manrope) */
+  .label {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-weight: 500;
+  }
+}
+
+/* ============================================================
+   Moldura viva — AURA dourada estática nas 4 bordas do viewport
+   (inspirada no indicador da extensão Claude for Chrome). Sem
+   movimento: brilho constante que esmaece para dentro.
+   ============================================================ */
+.edge-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+/* filete fino permanente na borda exata */
+.edge-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(176, 137, 76, 0.28);
+}
+
+/* aura: camadas de inner-glow que abraçam as bordas e desvanecem */
+.edge-glow__aura {
+  position: absolute;
+  inset: 0;
+  box-shadow:
+    inset 0 0 2px 0 rgba(176, 137, 76, 0.40),
+    inset 0 0 16px -2px rgba(176, 137, 76, 0.30),
+    inset 0 0 45px -6px rgba(176, 137, 76, 0.20),
+    inset 0 0 110px -30px rgba(176, 137, 76, 0.14);
+}
+
+/* Respeita prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
