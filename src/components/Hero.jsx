@@ -11,79 +11,90 @@ const PILARES = [
   { icon: Truck, label: "Envio para todo o Brasil" },
 ];
 
+function Headline() {
+  return (
+    <h1 className="font-serif leading-[1.03] font-medium tracking-[-0.01em] text-preto">
+      <span className="block">Sua essência.</span>
+      <span className="block italic text-dourado">Sua escolha.</span>
+    </h1>
+  );
+}
+
+function Cta() {
+  return (
+    <a
+      href={WA_CONSULTAR}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Consultar produtos disponíveis pelo WhatsApp"
+      className="group label inline-flex min-h-[54px] w-full items-center justify-center gap-3 rounded-full bg-preto px-9 py-4 text-[12px] text-creme transition-colors duration-300 hover:bg-charcoal sm:w-auto"
+    >
+      Consultar produtos disponíveis
+      <ArrowRight
+        size={17}
+        className="transition-transform duration-300 group-hover:translate-x-1"
+      />
+    </a>
+  );
+}
+
 export default function Hero() {
   const reduce = useReducedMotion();
 
-  const container = {
-    hidden: {},
-    show: { transition: { staggerChildren: reduce ? 0 : 0.1, delayChildren: 0.2 } },
-  };
-  const rise = {
-    hidden: reduce ? { opacity: 0 } : { opacity: 0, y: 22 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE } },
-  };
-
   return (
     <section id="top" className="relative bg-creme">
-      {/* Palco do hero — foto + texto */}
-      <div className="relative min-h-[94svh] overflow-hidden md:min-h-[88vh]">
-        {/* Foto: mobile = fundo inteiro · desktop = metade direita */}
-        <div className="absolute inset-0 md:left-[42%]">
+      {/* ===== MOBILE: empilhado ===== */}
+      <div className="px-6 pt-28 pb-12 md:hidden">
+        <div className="[&_h1]:text-[clamp(2.6rem,13vw,3.4rem)]">
+          <Headline />
+        </div>
+        <p className="mt-5 max-w-[34ch] text-[1.05rem] leading-[1.6] text-preto/75">
+          Perfumes e produtos importados que valorizam quem você é.
+        </p>
+        <div className="mt-7 overflow-hidden rounded-2xl border border-dourado/30">
+          <img
+            src={heroImg}
+            alt="Marcelli, da Mundo Importado Store, com perfumes importados"
+            className="aspect-[4/5] w-full object-cover object-top"
+          />
+        </div>
+        <div className="mt-7">
+          <Cta />
+        </div>
+      </div>
+
+      {/* ===== DESKTOP: foto à direita dissolvendo no creme ===== */}
+      <div className="relative hidden min-h-[88vh] overflow-hidden md:block">
+        <div className="absolute inset-0 left-[42%]">
           <img
             src={heroImg}
             alt="Marcelli, da Mundo Importado Store, com perfumes importados"
             className="h-full w-full object-cover object-center"
           />
-          {/* Legibilidade no mobile (scrim de cima) */}
-          <div className="absolute inset-0 bg-gradient-to-b from-creme/85 via-creme/25 to-creme/10 md:hidden" />
-          {/* Continuidade no desktop: foto some no creme à esquerda */}
-          <div className="absolute inset-0 hidden bg-gradient-to-r from-creme via-creme/60 to-transparent md:block" />
+          <div className="absolute inset-0 bg-gradient-to-r from-creme via-creme/55 to-transparent" />
         </div>
 
-        {/* Conteúdo */}
         <motion.div
-          variants={container}
-          initial={reduce ? false : "hidden"}
-          animate="show"
-          className="relative z-10 mx-auto flex min-h-[94svh] max-w-[1280px] flex-col justify-start px-6 pt-32 pb-14 md:min-h-[88vh] md:justify-center md:px-10 md:pt-24"
+          initial={reduce ? false : { opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
+          className="relative z-10 mx-auto flex min-h-[88vh] max-w-[1280px] flex-col justify-center px-10"
         >
-          <div className="max-w-[34rem] md:max-w-[50%]">
-            <h1 className="font-serif text-[clamp(2.8rem,7vw,5rem)] leading-[1.02] font-medium tracking-[-0.01em] text-preto">
-              <motion.span variants={rise} className="block">
-                Sua essência.
-              </motion.span>
-              <motion.span variants={rise} className="block italic text-dourado">
-                Sua escolha.
-              </motion.span>
-            </h1>
-
-            <motion.p
-              variants={rise}
-              className="mt-6 max-w-[40ch] text-[clamp(1.05rem,1.4vw,1.25rem)] leading-[1.7] text-preto/75"
-            >
+          <div className="max-w-[48%]">
+            <div className="[&_h1]:text-[clamp(3rem,5.2vw,5rem)]">
+              <Headline />
+            </div>
+            <p className="mt-6 max-w-[34ch] text-[clamp(1.05rem,1.4vw,1.25rem)] leading-[1.7] text-preto/75">
               Perfumes e produtos importados que valorizam quem você é.
-            </motion.p>
-
-            <motion.div variants={rise} className="mt-9">
-              <a
-                href={WA_CONSULTAR}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Consultar produtos disponíveis pelo WhatsApp"
-                className="group label inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full bg-preto px-9 py-4 text-[12px] text-creme transition-colors duration-300 hover:bg-charcoal"
-              >
-                Consultar produtos disponíveis
-                <ArrowRight
-                  size={17}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </a>
-            </motion.div>
+            </p>
+            <div className="mt-9">
+              <Cta />
+            </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Pilares de confiança */}
+      {/* ===== Pilares ===== */}
       <div className="border-y border-linha bg-greige/50">
         <ul className="mx-auto grid max-w-[1280px] grid-cols-1 gap-y-5 px-6 py-7 sm:grid-cols-3 md:px-10">
           {PILARES.map(({ icon: Icon, label }) => (
